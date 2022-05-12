@@ -7,12 +7,13 @@ variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci
   USER_GITLAB: j.de-la-osa
   APP_NAME: tourguideserver
-  REPO: p8delaosa
+  REPO: tourduideServer
 
 stages:
   - build
   - test
   - docker
+  - docker-stop
 
 gradle-build:
   image: openjdk:8
@@ -34,4 +35,10 @@ docker-build:
   stage: docker
   script:
     - docker build --build-arg JAR_FILE="build/libs/*.jar" -t tourservicegateway .
-    - docker run -p 8083:8083 tourguideserver
+    - docker run -p 8086:8086 tourguideserver
+
+  docker-stop:
+    stage: docker-stop
+    script:
+      - docker stop tourservicegateway
+
